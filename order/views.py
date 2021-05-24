@@ -63,9 +63,9 @@ def addtoshopcart(request, id):
 
     else:  # if there is no post
         if control == 1:  # Update  shopcart
-            data = ShopCart.objects.get(product_id=id, user_id=current_user.id)
+            data = ShopCart.objects.get(product__id=id, user_id=current_user.id)
             data.quantity += 1
-            data.save()  #
+            data.save()  
         else:  # Inser to Shopcart
             data = ShopCart()  # model ile bağlantı kur
             data.user_id = current_user.id
@@ -82,9 +82,12 @@ def shopcart(request):
     current_user = request.user  # Access User Session information
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
     total = 0
+    
     for rs in shopcart:
-        total += rs.product.price * rs.quantity
-    # return HttpResponse(str(total))
+        if rs.variant is None:
+            total += rs.product.price * rs.quantity
+        else:
+            total += rs.variant.price * rs.quantity
     context = {'shopcart': shopcart,
                'categories': categories,
                'total': total,

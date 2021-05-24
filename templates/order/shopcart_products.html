@@ -62,7 +62,7 @@
                                     </strong></td>
                                 <td class="qty text-center"><strong>{{rs.quantity}}</strong></td>
                                 <td class="total text-center"><strong class="primary-color">$
-                                        {% if rs.product.variant == 'None' %}
+                                        {% if rs.product.variant is None %}
                                         {{ rs.amount }}
                                         {% else %}
                                         {{ rs.varamount }}

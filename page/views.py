@@ -34,7 +34,11 @@ def index(request):
 
 
 def aboutus(request):
-    return render(request, 'pages/about.html')
+    categories = Category.objects.all()
+    context = {
+        'categories': categories
+    }
+    return render(request, 'pages/about.html', context)
 
 
 def contactus(request):
@@ -52,8 +56,12 @@ def contactus(request):
                 request, "Your message has ben sent. Thank you for your message.")
             return HttpResponseRedirect('/contact')
 
+    categories = Category.objects.all()
     form = ContactForm
-    context = {'form': form}
+    context = {
+        'form': form,
+        'categories': categories
+    }
     return render(request, 'pages/contactus.html', context)
 
 
@@ -83,21 +91,21 @@ def search(request):
     return HttpResponseRedirect('/')
 
 
-def search_auto(request):
-    if request.is_ajax():
-        q = request.GET.get('term', '')
-        products = Product.objects.filter(title__icontains=q)
+# def search_auto(request):
+#     if request.is_ajax():
+#         q = request.GET.get('term', '')
+#         products = Product.objects.filter(title__icontains=q)
 
-        results = []
-        for rs in products:
-            product_json = {}
-            product_json = rs.title
-            results.append(product_json)
-        data = json.dumps(results)
-    else:
-        data = 'fail'
-    mimetype = 'application/json'
-    return HttpResponse(data, mimetype)
+#         results = []
+#         for rs in products:
+#             product_json = {}
+#             product_json = rs.title
+#             results.append(product_json)
+#         data = json.dumps(results)
+#     else:
+#         data = 'fail'
+#     mimetype = 'application/json'
+#     return HttpResponse(data, mimetype)
 
 
 def product_detail(request, id, slug):

@@ -9,10 +9,10 @@ from user.models import UserProfile
 class SignUpForm(UserCreationForm):
     username = forms.CharField(max_length=30, label='User Name :')
     email = forms.EmailField(max_length=200, label='Email :')
-    full_name = forms.CharField(
-        max_length=100, help_text='First Name', label='First Name :')
+    first_name = forms.CharField(
+        max_length=100, help_text='First Name', label='First Name:')
     last_name = forms.CharField(
-        max_length=100, help_text='Last Name', label='First Name :')
+        max_length=100, help_text='Last Name', label='Last Name:')
 
     class Meta:
         model = User
@@ -21,9 +21,15 @@ class SignUpForm(UserCreationForm):
 
 
 class UserUpdateForm(UserChangeForm):
+
+    def __init__(self, *args, **kwargs):
+        super(UserUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['readonly'] = True
+
     class Meta:
         model = User
         fields = ('username', 'email', 'first_name', 'last_name')
+        readonly_fields = ('username', )
         widgets = {
             'username': TextInput(attrs={'class': 'input', 'placeholder': 'username'}),
             'email': EmailInput(attrs={'class': 'input', 'placeholder': 'email'}),

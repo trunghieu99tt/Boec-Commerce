@@ -9,6 +9,5 @@ Superuser Password: admin</br>
 Create and Run your virtual environment (venv)</br>
 <code>pip install -r requirements.txt</code></br>
 <b>For running</b></br>
-<code>cd BoEC</code></br>
 <code>python manage.py runserver</code><br>
 
