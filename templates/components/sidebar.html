@@ -13,11 +13,11 @@
                     {% endif %}
 
                     <span class="category-header">Categories<i class="fa fa-list"></i></span>
+                    
 
-
-                    <ul class="category-list">
+                    <ul  class="category-list" >
                         {% for category in categories %}
-                            <li class="dropdown side-dropdown">
+                            <li style="color: black;" class="dropdown side-dropdown">
                                 <a href="{% url 'category_products' category.id %}" class="dropdown-toggle" >{{ category.title }}</a> <!--  data-toggle="dropdown" aria-expanded="true"-->
                             </li>
                         {% endfor %}

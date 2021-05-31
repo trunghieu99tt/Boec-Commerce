@@ -30,29 +30,29 @@
                     <div id="product-main-view">
                         {% if variant.image_id > 0 %}
                         <div class="product-view">
-                            <img src="{{ variant.image }}" alt="" style="height: 400px">
+                            <img src="{{ variant.image }}" alt="" style="height: 400px; object-fit: contain">
                         </div>
                         {% else %}
                         <div class="product-view">
-                            <img src="{{ product.image.url }}" alt="" style="height: 400px">
+                            <img src="{{ product.image.url }}" alt="" style="height: 400px; object-fit: contain">
                         </div>
                         {% endif %}
 
                         {% for rs in images %}
                         <div class="product-view active">
-                            <img src="{{ rs.image.url }}" alt="" style="height: 400px">
+                            <img src="{{ rs.image.url }}" alt="" style="height: 400px; object-fit: contain">
                         </div>
                         {% endfor %}
 
 
                     </div>
-                    <div id="product-view">
+                    <div id="product-view" style="height: 200px">
                         <div class="product-view">
-                            <img src="{{ product.image.url }}" alt="">
+                            <img src="{{ product.image.url }}" alt="" style="height: 200px; object-fit: contain">
                         </div>
                         {% for rs in images %}
                         <div class="product-view">
-                            <img src="{{ rs.image.url }}" alt="aa">
+                            <img src="{{ rs.image.url }}" alt="aa" style="height: 200px; object-fit: contain">
                         </div>
                         {% endfor %}
 

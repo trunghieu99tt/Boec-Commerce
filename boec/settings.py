@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'ckeditor',
-    'django_extensions',
+    # 'django_extensions',
     
     'page',
     'user',
@@ -159,7 +159,7 @@ CKEDITOR_CONFIGS = {
 
 LOGIN_URL = '/login/'
 
-GRAPH_MODELS = {
-    'all_applications': True,
-    'group_models': True
-}
+# GRAPH_MODELS = {
+#     'all_applications': True,
+#     'group_models': True
+# }

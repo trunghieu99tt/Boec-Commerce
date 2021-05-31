@@ -7,21 +7,17 @@
         <div class="home-wrap">
             <!-- home slick -->
             <div id="home-slick">
-
-                {% for rs in products_slider %}
                 <!-- banner -->
                 <div class="banner banner-1">
-                    <img src="{{ rs.image.url }}" alt="" style="height: 600px">
-                    <div class="banner-caption text-center">
-                        <h1>{{ rs.title }} </h1>
-                        <h3 class="white-color font-weak"> {{ rs.price }} USD </h3>
-                        <a href="{% url 'product_detail' rs.id rs.slug %}" class="primary-btn">Shop Now</a>
-
-                    </div>
+                    <img src="/static/img/3.jpg" alt="" style="height: 600px">
+                </div>
+                <div class="banner banner-1">
+                    <img src="/static/img/2.jpg" alt="" style="height: 600px">
+                </div>
+                <div class="banner banner-1">
+                    <img src="/static/img/1.jpg" alt="" style="height: 600px">
                 </div>
                 <!-- /banner -->
-                {% endfor %}
-
             </div>
             <!-- /home slick -->
         </div>

@@ -21,10 +21,10 @@ def index(request):
     products_picked = Product.objects.all().order_by(
         '?')[:4]  # Random selected 4 products
 
-    page = "home"
+    # page = "home"
     categories = Category.objects.all()
     context = {
-        'page': page,
+        # 'page': page,
         'products_slider': products_slider,
         'products_latest': products_latest,
         'products_picked': products_picked,
@@ -137,7 +137,8 @@ def product_detail(request, id, slug):
                 'SELECT * FROM  product_variants  WHERE product_id=%s GROUP BY size_id', [id])
             variant = Variants.objects.get(id=variants[0].id)
         context.update({'sizes': sizes, 'colors': colors,
-                        'variant': variant, 'query': query
+                        'variant': variant, 'query': query,
+                        'categories': category
                         })
     return render(request, 'product/product_detail.html', context)
 

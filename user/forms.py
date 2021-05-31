@@ -10,10 +10,18 @@ class SignUpForm(UserCreationForm):
     username = forms.CharField(max_length=30, label='User Name :')
     email = forms.EmailField(max_length=200, label='Email :')
     first_name = forms.CharField(
-        max_length=100, help_text='First Name', label='First Name:')
+        max_length=100, label='First Name:')
     last_name = forms.CharField(
-        max_length=100, help_text='Last Name', label='Last Name:')
+        max_length=100, label='Last Name:')
+    password1 = forms.CharField(max_length=30, label='Password :')
+    password2 = forms.CharField(max_length=30, label='Password Confirmation :')
 
+    username.widget = forms.TextInput(attrs={'size': 50, 'class': 'form-control'})
+    email.widget = forms.TextInput(attrs={'size': 50, 'class': 'form-control'})
+    first_name.widget = forms.TextInput(attrs={'size': 50, 'class': 'form-control'})
+    last_name.widget = forms.TextInput(attrs={'size': 50, 'class': 'form-control'})
+    password1.widget = forms.PasswordInput(attrs={'size': 50, 'class': 'form-control'})
+    password2.widget = forms.PasswordInput(attrs={'size': 50, 'class': 'form-control'})
     class Meta:
         model = User
         fields = ('username', 'email', 'first_name',
