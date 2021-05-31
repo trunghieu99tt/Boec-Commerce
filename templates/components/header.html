@@ -1,10 +1,10 @@
 {% load static %}
 <header>
     <!-- top Header -->
-    <div id="top-header">
+    <div id="top-header" style="background-color: #2b2e34;color: aliceblue;">
         <div class="container">
             <div class="pull-left">
-                <span>Welcome to E-shop!</span>
+                <span>Welcome to Mars Shop!</span>
                 {% if messages %}
                 {% for message in messages %}
                 <div class="alert alert-{{message.tags}}" role="alert">
@@ -13,10 +13,6 @@
                 {% endfor %}
                 {% endif %}
             </div>
-
-
-
-
             <div class="pull-right">
                 <ul class="header-top-links">
                     <li><a href="#">Store</a></li>
@@ -28,13 +24,13 @@
     <!-- /top Header -->
 
     <!-- header -->
-    <div id="header">
+    <div id="header" style="background-color: #25262b; color: aliceblue;">
         <div class="container">
             <div class="pull-left">
                 <!-- Logo -->
                 <div class="header-logo">
                     <a class="logo" href="{% url 'home' %}">
-                        <img src="{% static '' %}img/logo.png" alt="">
+                        <img src="{% static '' %}img/logoWeb.png" alt="">
                     </a>
                 </div>
                 <!-- /Logo -->
@@ -69,22 +65,22 @@
             <div class="pull-right">
                 <ul class="header-btns">
                     <!-- Account -->
-                    <li class="header-account dropdown default-dropdown">
+                    <li class="header-account dropdown default-dropdown" >
                         {% if user.id %}
                         <div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
                             <div class="header-btns-icon" style="border: none">
                                 <img src="{{ request.session.userimage }}"
                                     style="height: 40px; width: 40px; border-radius: 50%">
                             </div>
-                            <strong class="text-uppercase">{{ user.first_name }} <i
+                            <strong style="color: white;" class="text-uppercase">{{ user.first_name }} <i
                                     class="fa fa-caret-down"></i></strong>
                         </div>
                         {% else %}
-                        <a href="{% url 'login' %}" class="text-uppercase">Login</a> / <a href="{% url 'signup' %}"
-                            class="text-uppercase">Sign Up</a>
+                        <a href="{% url 'login' %}" class="text-uppercase" style="color:#fff ">Login</a> / <a href="{% url 'signup' %}"
+                            class="text-uppercase" style="color:#fff">Sign Up</a>
                         {% endif %}
 
-                        <ul class="custom-menu">
+                        <ul class="custom-menu" style="color: #fff;">
                             <li><a href="{% url 'user_index' %}"><i class="fa fa-user-o"></i>My Account</a></li>
                             <li><a href="{% url 'user_orders' %}"><i class="fa fa-exchange"></i>My Orders</a></li>
                             <li><a href="{% url 'user_comments' %}"><i class="fa fa-check"></i>My Comments</a></li>
@@ -105,7 +101,7 @@
 
                                 <span class="qty">{{ count }}</span>
                             </div>
-                            <strong class="text-uppercase">My Cart:</strong>
+                            <strong style="color: #fff;" class="text-uppercase">My Cart:</strong>
                             <br>
 
                         </a>

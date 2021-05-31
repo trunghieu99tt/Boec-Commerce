@@ -71,9 +71,13 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 0 10px;
   font-weight: 700;
 }
-
+#footer h1, h2, h3, h4, h5, h6 {
+  color: #fff;
+  margin: 0 0 10px;
+  font-weight: 700;
+}
 a {
-  color: #30323A;
+  color: #fff;
   -webkit-transition: 0.3s color;
   transition: 0.3s color;
 }
@@ -814,7 +818,7 @@ textarea.input {
 ===========================================================*/
 
 #home .home-wrap {
-  margin-left: 270px;
+  margin-left: 0px;
 }
 
 #home-slick .banner {
