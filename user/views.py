@@ -35,6 +35,10 @@ def login_form(request):
             current_user = request.user
             userprofile = UserProfile.objects.get(user_id=current_user.id)
             request.session['userimage'] = userprofile.image.url
+            if userprofile.role == 'FOREMAN':
+                return HttpResponseRedirect('/foreman/')
+            if userprofile.role == 'PRODUCING_MANAGER':
+                return HttpResponseRedirect('/producing_manager/')
             return HttpResponseRedirect('/')
         else:
             messages.warning(
@@ -47,6 +51,11 @@ def login_form(request):
     }
     return render(request, 'user/login_form.html', context)
 
+def producing_manager_view(request):
+    return render(request, 'user/producing_manager_page.html')
+
+def foreman_view(request):
+    return render(request, 'user/foreman_page.html')
 
 def logout_func(request):
     logout(request)

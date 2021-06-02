@@ -3,12 +3,19 @@ from django.db import models
 from django.utils.safestring import mark_safe
 
 
+ROLE = (
+    ('PRODUCING_MANAGER', 'PRODUCING_MANAGER'),
+    ('FOREMAN', 'FOREMAN'),
+    ('CUSTOMER', 'CUSTOMER')
+)
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(blank=True, max_length=20)
     address = models.CharField(blank=True, max_length=150)
     city = models.CharField(blank=True, max_length=20)
     image = models.ImageField(blank=True, upload_to='images/users/', default='img/logo.png')
+    role = models.CharField(choices=ROLE, max_length=50, default='CUSTOMER')
 
     def __str__(self):
         return self.user.username
