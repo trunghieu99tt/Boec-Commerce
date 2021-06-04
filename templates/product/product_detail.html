@@ -74,12 +74,14 @@
                                 <i class="fa fa-star{% if product.avaregereview < 5%}-o empty{% endif%}"></i>
                                 {{ product.avaregereview |stringformat:".2f"}}
                             </div>
-                            <a href="#tab1"> {{ product.countreview }} Review(s) / Add Review</a>
+                                <a href="#tab1"> {{ product.countreview }} Review(s) / Add Review</a>
                         </div>
 
                         <p><strong>Brand:</strong> E-SHOP</p>
                         <p>{{ product.description }}</p>
 
+                        
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"> </script>
 
                         <script>
                             $(document).on('change', '#post-form', function (e) {
@@ -103,6 +105,19 @@
                                     }
                                 });
                             });
+                            
+                                // var hash = document.location.hash;
+                                // if (hash) {
+                                //     $(".tab-nav a[href=\\" + hash + "]").tab('show');
+                                //      $(".tab-nav a[href=\\" + hash + "]").addClass('active');
+                                // }
+
+                                // // Change hash for page-reload
+                                // $('.go-to-review-tab').on('click', function (e) {
+                                //     console.log('Click')
+                                //     window.location.hash = e.target.hash;
+                                // });
+                            
                         </script>
 
 
@@ -139,7 +154,7 @@
                                                 <li {% if variant.id == rs.id %} class="active" {% endif %}>
                                                     <a
                                                         style="background-color:{{ rs.color.code }}; color: #D9D9D9; text-shadow: 1px 1px #000000; width: 90px">
-                                                        ${{ rs.price }} {{ rs.color }}
+                                                         {{ rs.color }}
                                                     </a>
                                                     <img src="{{ rs.image }}" style="height: 70px">
                                                 </li>
@@ -163,7 +178,7 @@
                                                 onchange="this.form.submit();">
                                             <li {% if variant.id == rs.id %} class="active" {% endif %}>
                                                 <a style=" color: #204d74;  width: 90px">
-                                                    ${{ rs.size }}<br> ${{ rs.price }}
+                                                    {{ rs.size }}<br>
                                                 </a>
                                             </li>
                                             {% endfor %}
@@ -261,7 +276,7 @@
                             <thead>
                                 <tr>
                                     <th>Product</th>
-                                    <th></th>
+                                    <th style="width: 700px;"></th>
                                     <th class="text-center">Price</th>
                                     <th class="text-right"></th>
                                 </tr>
@@ -272,14 +287,16 @@
                                     <td class="thumb"><a href="{% url 'product_detail' rs.id rs.slug %}">
                                             <img src="{{ rs.image.url }}" alt="" style="height: 100px">
                                         </a></td>
-                                    <td class="details"> <a
+                                    <td class="details" style="display: flex;flex-direction: column;"> <a
                                             href="{% url 'product_detail' rs.id rs.slug %}">{{ rs.title }}</a>
                                             <div class="product-rating">
-                                                <i class="fa fa-star{% if rs.avaregereview < 1%}-o empty{% endif%}"></i>
-                                                <i class="fa fa-star{% if rs.avaregereview < 2%}-o empty{% endif%}"></i>
-                                                <i class="fa fa-star{% if rs.avaregereview < 3%}-o empty{% endif%}"></i>
-                                                <i class="fa fa-star{% if rs.avaregereview < 4%}-o empty{% endif%}"></i>
-                                                <i class="fa fa-star{% if rs.avaregereview < 5%}-o empty{% endif%}"></i>
+                                                <div class="product-rating-stars">
+                                                    <i class="fa fa-star{% if rs.avaregereview < 1%}-o empty{% endif%}"></i>
+                                                    <i class="fa fa-star{% if rs.avaregereview < 2%}-o empty{% endif%}"></i>
+                                                    <i class="fa fa-star{% if rs.avaregereview < 3%}-o empty{% endif%}"></i>
+                                                    <i class="fa fa-star{% if rs.avaregereview < 4%}-o empty{% endif%}"></i>
+                                                    <i class="fa fa-star{% if rs.avaregereview < 5%}-o empty{% endif%}"></i>
+                                                </div>
                                                 {{ rs.avaregereview |stringformat:".2f"}}
                                             </div>
                                     </td>
@@ -310,7 +327,6 @@
                             </p>
                         </div>
                         <div id="tab2" class="tab-pane fade in">
-
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="product-reviews">
@@ -400,4 +416,6 @@
 <!-- /container -->
 {% comment %} </div> {% endcomment %}
 <!-- /section -->
+
+
 {% endblock %}

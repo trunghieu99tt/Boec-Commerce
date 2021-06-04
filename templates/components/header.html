@@ -1,7 +1,18 @@
 {% load static %}
 <header>
+    
+    
+    <div class="message-container">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{message.tags}}" role="alert">
+            {{ message | safe }}
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
     <!-- top Header -->
-    <div id="top-header" style="background-color: #2b2e34;color: aliceblue;">
+    <!-- <div id="top-header" style="background-color: #2b2e34;color: aliceblue;">
         <div class="container">
             <div class="pull-left">
                 <span>Welcome to Tyche Store</span>
@@ -20,7 +31,7 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- /top Header -->
 
     <!-- header -->

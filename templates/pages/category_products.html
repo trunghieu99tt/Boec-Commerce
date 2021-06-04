@@ -208,9 +208,8 @@
                                     <thead>
                                         <tr>
                                             <th>Product</th>
-                                            <th></th>
+                                            <th style="width: 700px;"></th>
                                             <th class="text-center">Price</th>
-
                                             <th class="text-right"></th>
                                         </tr>
                                     </thead>
@@ -223,11 +222,13 @@
                                             <td class="details"> <a
                                                     href="{% url 'product_detail' rs.id rs.slug %}">{{ rs.title }}</a>
                                                     <div class="product-rating">
-                                                        <i class="fa fa-star{% if rs.avaregereview < 1%}-o empty{% endif%}"></i>
-                                                        <i class="fa fa-star{% if rs.avaregereview < 2%}-o empty{% endif%}"></i>
-                                                        <i class="fa fa-star{% if rs.avaregereview < 3%}-o empty{% endif%}"></i>
-                                                        <i class="fa fa-star{% if rs.avaregereview < 4%}-o empty{% endif%}"></i>
-                                                        <i class="fa fa-star{% if rs.avaregereview < 5%}-o empty{% endif%}"></i>
+                                                        <div class="product-rating-stars">
+                                                            <i class="fa fa-star{% if rs.avaregereview < 1%}-o empty{% endif%}"></i>
+                                                            <i class="fa fa-star{% if rs.avaregereview < 2%}-o empty{% endif%}"></i>
+                                                            <i class="fa fa-star{% if rs.avaregereview < 3%}-o empty{% endif%}"></i>
+                                                            <i class="fa fa-star{% if rs.avaregereview < 4%}-o empty{% endif%}"></i>
+                                                            <i class="fa fa-star{% if rs.avaregereview < 5%}-o empty{% endif%}"></i>
+                                                        </div>
                                                         {{ rs.avaregereview |stringformat:".2f"}}
                                                     </div>
                                             </td>
