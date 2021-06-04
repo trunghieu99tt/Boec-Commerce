@@ -60,8 +60,11 @@ Table OF Contents
 	Typography
 \*----------------------------*/
 
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap");
+
 body {
-    font-family: "Hind", sans-serif;
+    /* font-family: "Hind", sans-serif; */
+    font-family: "Nunito Sans", sans-serif;
     color: #4a4e5a;
     overflow-x: hidden;
 }
@@ -161,7 +164,7 @@ hr {
 
 .primary-btn {
     color: #fff;
-    background-color: #002864;
+    background-color: red;
 }
 
 .primary-btn:hover,
@@ -267,7 +270,7 @@ textarea.input {
 
 .section {
     padding-top: 30px;
-    padding-bottom: 30px;
+    /* padding-bottom: 30px; */
 }
 
 .section-grey {
@@ -294,6 +297,12 @@ textarea.input {
     height: 3px;
     width: 60px;
     background-color: #002864;
+}
+
+.message-container {
+    position: fixed;
+    bottom: 0;
+    right: 2rem;
 }
 
 /*----------------------------*\
@@ -365,6 +374,7 @@ textarea.input {
 .header-logo .logo > img {
     width: 100%;
     max-height: 70px;
+    filter: invert(1);
 }
 
 /*----------------------------*\
@@ -505,7 +515,7 @@ textarea.input {
     padding: 15px;
     display: block;
     text-transform: uppercase;
-    background: #002864;
+    /* background: #002864; */
     color: #fff;
     font-weight: 700;
 }
@@ -593,10 +603,8 @@ textarea.input {
     text-transform: uppercase;
 }
 
-.menu-nav .menu-list > li > a:hover,
-.menu-nav .menu-list > li > a:focus,
-.menu-nav .menu-list > li.dropdown.open > a {
-    color: #002864;
+.menu-nav .menu-list > li:hover {
+    background: rgba(256, 256, 256, 0.2);
 }
 
 /*----------------------------*\
@@ -812,6 +820,7 @@ textarea.input {
 
 .banner > img {
     width: 100%;
+    object-fit: cover;
 }
 
 .banner.banner-1 .banner-caption {
@@ -876,10 +885,11 @@ textarea.input {
     color: #fff;
     background-color: #30323a;
     z-index: 22;
+    border-radius: 5px;
 }
 
 .product .product-label > span.sale {
-    background-color: #002864;
+    background-color: red;
 }
 
 .product .product-countdown {
@@ -918,11 +928,12 @@ textarea.input {
 }
 
 .product.product-single:hover {
-    -webkit-box-shadow: 0px 6px 10px -6px rgba(0, 0, 0, 0.175);
-    box-shadow: 0px 6px 10px -6px rgba(0, 0, 0, 0.175);
+    /* -webkit-box-shadow: 0px 6px 10px -6px rgba(0, 0, 0, 0.175); */
+    /* box-shadow: 0px 6px 10px -6px rgba(0, 0, 0, 0.175); */
     -webkit-transform: translateY(-4px);
     -ms-transform: translateY(-4px);
     transform: translateY(-4px);
+    box-shadow: -2px 7px 14px 0px rgb(172 162 162 / 75%);
 }
 
 .product.product-single .product-thumb {
@@ -932,7 +943,7 @@ textarea.input {
 
 .product.product-single .product-thumb > img {
     /* width: 100%; */
-    object-fit: container;
+    object-fit: cover;
     height: 100%;
 }
 
@@ -1010,8 +1021,6 @@ textarea.input {
 
 .product.product-single .product-btns {
     margin-top: 20px;
-    opacity: 0;
-    visibility: hidden;
     -webkit-transition: 0.3s all;
     transition: 0.3s all;
 }
@@ -1640,6 +1649,10 @@ textarea.input {
       10 -> FOOTER
   ===========================================================*/
 
+#footer {
+    margin-top: 15px;
+}
+
 .footer {
     margin: 15px 0px;
 }
@@ -1648,6 +1661,7 @@ textarea.input {
     font-size: 18px;
     text-transform: uppercase;
     margin-bottom: 30px;
+    color: #fff;
 }
 
 .footer-logo {

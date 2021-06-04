@@ -35,7 +35,7 @@
     <!-- /top Header -->
 
     <!-- header -->
-    <div id="header" style="background-color: #25262b; color: aliceblue;">
+    <div id="header">
         <div class="container">
             <div class="pull-left">
                 <!-- Logo -->
@@ -83,12 +83,12 @@
                                 <img src="{{ request.session.userimage }}"
                                     style="height: 40px; width: 40px; border-radius: 50%">
                             </div>
-                            <strong style="color: white;" class="text-uppercase">{{ user.first_name }} <i
+                            <strong class="text-uppercase">{{ user.first_name }} <i
                                     class="fa fa-caret-down"></i></strong>
                         </div>
                         {% else %}
-                        <a href="{% url 'login' %}" class="text-uppercase" style="color:#fff ">Login</a> / <a href="{% url 'signup' %}"
-                            class="text-uppercase" style="color:#fff">Sign Up</a>
+                        <a href="{% url 'login' %}" class="text-uppercase" >Login</a> / <a href="{% url 'signup' %}"
+                            class="text-uppercase" >Sign Up</a>
                         {% endif %}
 
                         <ul class="custom-menu" style="color: #fff;">

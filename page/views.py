@@ -106,6 +106,7 @@ def product_detail(request, id, slug):
     context = {'product': product, 'category': category,
                'images': images, 'comments': comments,
                'suggests': suggests,
+               'categories': category
                }
     if product.variant != "None":  # Product have variants
         if request.method == 'POST':  # if we select color
