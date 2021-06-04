@@ -165,6 +165,7 @@ def suggest_pro(id):
     for i in range(df.shape[0]):
         records.append([str(df.values[i, j])
                        for j in range(df.shape[1])])
+
     association_rules = apriori(
         records, min_support=0.3, min_confidence=0.5, min_lift=1.2)
     association_results = list(association_rules)
