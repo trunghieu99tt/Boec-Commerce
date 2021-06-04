@@ -20,6 +20,8 @@ from django.conf.urls.static import static
 from page import views
 from order import views as OrderViews
 from user import views as UserViews
+from product import views as ProductViews
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,7 +31,6 @@ urlpatterns = [
     path('order/', include('order.urls')),
     path('user/', include('user.urls'), name='user'),
     path('ckeditor/', include('ckeditor_uploader.urls')),
-
     path('about/', views.aboutus, name='aboutus'),
     path('contact/', views.contactus, name='contactus'),
     path('search/', views.search, name='search'),
@@ -43,8 +44,6 @@ urlpatterns = [
     path('logout/', UserViews.logout_func, name='logout'),
     path('signup/', UserViews.signup_form, name='signup'),
     path('ajaxcolor/', views.ajaxcolor, name='ajaxcolor'),
-    path('producing_manager/', UserViews.producing_manager_view, name='producing_manager'),
-    path('foreman/', UserViews.foreman_view, name='foreman')
 ]
 
 

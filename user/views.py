@@ -4,8 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.contrib.auth.models import Group, User
 
-# Create your views here.
+
 from django.utils import translation
 
 from order.models import Order, OrderProduct
@@ -19,7 +20,7 @@ def index(request):
     categories = Category.objects.all()
     current_user = request.user  # Access User Session information
     profile = UserProfile.objects.get(user_id=current_user.id)
-    context = {  
+    context = {
         'categories': categories,
         'profile': profile}
     return render(request, 'user/user_profile.html', context)
@@ -35,10 +36,17 @@ def login_form(request):
             current_user = request.user
             userprofile = UserProfile.objects.get(user_id=current_user.id)
             request.session['userimage'] = userprofile.image.url
-            if userprofile.role == 'FOREMAN':
-                return HttpResponseRedirect('/foreman/')
-            if userprofile.role == 'PRODUCING_MANAGER':
-                return HttpResponseRedirect('/producing_manager/')
+            group = None
+            if request.user.groups.exists():
+                group = request.user.groups.all()[0].name
+
+            if group == 'warehouse_staff':
+                return HttpResponseRedirect('/warehouse_staff/')
+            elif group == 'sale_staff':
+                return HttpResponseRedirect('/sale_staff/')
+            elif group == 'business_staff':
+                return HttpResponseRedirect('/business_staff/')
+
             return HttpResponseRedirect('/')
         else:
             messages.warning(
@@ -46,16 +54,65 @@ def login_form(request):
             return HttpResponseRedirect('/login')
 
     categories = Category.objects.all()
-    context = {  
+    context = {
         'categories': categories
     }
     return render(request, 'user/login_form.html', context)
 
-def producing_manager_view(request):
-    return render(request, 'user/producing_manager_page.html')
 
-def foreman_view(request):
-    return render(request, 'user/foreman_page.html')
+# @login_required(login_url='/login')
+# def business_staff_view(request):
+#     if request.user.groups.exists():
+#         group = request.user.groups.all()[0].name
+
+#     if group == 'business_staff':
+#         return render(request, 'user/business_staff.html')
+#     else:
+#         return HttpResponse('You are not authorized to view this page')
+
+
+# @login_required(login_url='/login')
+# def sale_staff_view(request):
+#     if request.user.groups.exists():
+#         group = request.user.groups.all()[0].name
+
+#     if group == 'sale_staff':
+#         orders = Order.objects.all()
+#         users = UserProfile.objects.all()
+#         customers = []
+#         for u in users:
+#             if u.user.groups.exists():
+#                 if u.user.groups.all()[0].name == 'customer':
+#                     customers.append(u)
+
+#         total_customers = len(customers)
+#         for cu in customers:
+#             print(cu.user.first_name)
+#         total_orders = orders.count()
+#         delivered = orders.filter(status='Completed').count()
+#         pending = orders.filter(status='Preaparing').count()
+
+#         context = {'orders': orders, 'customers': customers,
+#                    'total_orders': total_orders, 'delivered': delivered,
+#                    'pending': pending}
+
+#         return render(request, 'accounts/dashboard.html', context)
+#         # return render(request, 'user/business_staff.html')
+#     else:
+#         return HttpResponse('You are not authorized to view this page')
+
+
+# @login_required(login_url='/login')
+# def warehouse_staff_view(request):
+#     if request.user.groups.exists():
+#         group = request.user.groups.all()[0].name
+
+#     if group == 'warehouse_staff':
+
+#         return render(request, 'user/warehouse_staff.html')
+#     else:
+#         return HttpResponse('You are not authorized to view this page')
+
 
 def logout_func(request):
     logout(request)
@@ -72,9 +129,11 @@ def signup_form(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
+            group = Group.objects.get(name='customer')
             login(request, user)
             # Create data in profile table for user
             current_user = request.user
+            current_user.groups.add(group)
             data = UserProfile()
             data.user_id = current_user.id
             data.image = "images/users/user.png"
@@ -87,7 +146,7 @@ def signup_form(request):
 
     form = SignUpForm()
     categories = Category.objects.all()
-    context = {  
+    context = {
         'categories': categories,
         'form': form,
     }
@@ -133,10 +192,8 @@ def user_password(request):
                 request, 'Please correct the error below.<br>' + str(form.errors))
             return HttpResponseRedirect('/user/password')
     else:
-        #category = Category.objects.all()
         form = PasswordChangeForm(request.user)
-        return render(request, 'user/user_password.html', {'form': form,  # 'category': category
-                                                      })
+        return render(request, 'user/user_password.html', {'form': form})
 
 
 @login_required(login_url='/login')  # Check login
@@ -207,3 +264,11 @@ def user_deletecomment(request, id):
     Comment.objects.filter(id=id, user_id=current_user.id).delete()
     messages.success(request, 'Comment deleted..')
     return HttpResponseRedirect('/user/comments')
+
+
+@login_required(login_url='/login')
+def add_product(request):
+    if request.methods == "GET":
+        return HttpResponseRedirect('/signup')
+    if request.methods == "POST":
+        pass

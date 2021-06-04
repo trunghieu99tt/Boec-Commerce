@@ -8,6 +8,7 @@ from product.models import Category, Product, Images, Comment, Color, Size, Vari
 class CategoryAdmin(ModelAdmin):
     list_display = ('title', 'related_products_count')
     prepopulated_fields = {'slug': ('title',)}
+    search_fields = ('title',)
 
     def related_products_count(self, instance):
         product_qty = Product.objects.filter(category=instance).count()
@@ -40,6 +41,7 @@ class ProductAdmin(admin.ModelAdmin):
     readonly_fields = ('image_tag',)
     inlines = [ProductImageInline, ProductVariantsInline]
     prepopulated_fields = {'slug': ('title',)}
+    search_fields = ('title',)
 
 
 class CommentAdmin(admin.ModelAdmin):

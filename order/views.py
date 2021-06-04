@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.utils.crypto import get_random_string
 
 from order.models import ShopCart, Order, OrderProduct
-from product.models import Category, Product, Variants
+from product.models import Category, Images, Product, Variants
 from user.models import UserProfile
 
 
@@ -19,11 +19,13 @@ def index(request):
 @login_required(login_url='/login')  # Check login
 def addtoshopcart(request, id):
     url = request.META.get('HTTP_REFERER')  # get last url
-    print(url)
     current_user = request.user  # Access User Session information
     product = Product.objects.get(pk=id)
-
-    if product.variant is not None:
+    if product.amount == 0:
+        messages.success(request, "Product Out of Stock! Sorry!")
+        return HttpResponseRedirect(url)
+    variantid = None
+    if product.variant != "None":
         variantid = request.POST.get('variantid')  # from variant add to cart
         checkinvariant = ShopCart.objects.filter(
             variant_id=variantid, user_id=current_user.id)  # Check product in shopcart
@@ -55,7 +57,8 @@ def addtoshopcart(request, id):
                 data = ShopCart()
                 data.user_id = current_user.id
                 data.product_id = id
-                data.variant_id = variantid
+                if variantid is not None:
+                    data.variant_id = variantid
                 data.quantity = form.cleaned_data['quantity']
                 data.save()
         messages.success(request, "Product added to Shopcart ")
@@ -63,9 +66,10 @@ def addtoshopcart(request, id):
 
     else:  # if there is no post
         if control == 1:  # Update  shopcart
-            data = ShopCart.objects.get(product__id=id, user_id=current_user.id)
+            data = ShopCart.objects.get(
+                product__id=id, user_id=current_user.id)
             data.quantity += 1
-            data.save()  
+            data.save()
         else:  # Inser to Shopcart
             data = ShopCart()  # model ile bağlantı kur
             data.user_id = current_user.id
@@ -82,12 +86,16 @@ def shopcart(request):
     current_user = request.user  # Access User Session information
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
     total = 0
-    
     for rs in shopcart:
+        product = Product.objects.get(pk=rs.product.id)
+        if rs.quantity > product.amount:
+            rs.quantity = product.amount
+        rs.save()
         if rs.variant is None:
             total += rs.product.price * rs.quantity
         else:
             total += rs.variant.price * rs.quantity
+
     context = {'shopcart': shopcart,
                'categories': categories,
                'total': total,
@@ -101,6 +109,7 @@ def deletefromcart(request, id):
     messages.success(request, "Your item deleted form Shopcart.")
     return HttpResponseRedirect("/shopcart")
 
+
 @login_required(login_url='/login')
 def orderproduct(request):
     category = Category.objects.all()
@@ -108,6 +117,7 @@ def orderproduct(request):
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
     total = 0
     for rs in shopcart:
+        print(rs.quantity)
         if rs.product.variant == 'None':
             total += rs.product.price * rs.quantity
         else:

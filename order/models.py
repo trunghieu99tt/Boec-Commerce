@@ -33,7 +33,7 @@ class Order(models.Model):
     STATUS = (
         ('New', 'New'),
         ('Accepted', 'Accepted'),
-        ('Preaparing', 'Preaparing'),
+        ('Preparing', 'Preparing'),
         ('OnShipping', 'OnShipping'),
         ('Completed', 'Completed'),
         ('Canceled', 'Canceled'),

@@ -210,29 +210,38 @@
                                             <th>Product</th>
                                             <th></th>
                                             <th class="text-center">Price</th>
-                                            <th class="text-center">Quantity</th>
 
                                             <th class="text-right"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-
-                                        {% for rs in products %}
+                                        {% for rs in suggests %}
                                         <tr>
                                             <td class="thumb"><a href="{% url 'product_detail' rs.id rs.slug %}">
                                                     <img src="{{ rs.image.url }}" alt="" style="height: 100px">
                                                 </a></td>
                                             <td class="details"> <a
                                                     href="{% url 'product_detail' rs.id rs.slug %}">{{ rs.title }}</a>
+                                                    <div class="product-rating">
+                                                        <i class="fa fa-star{% if rs.avaregereview < 1%}-o empty{% endif%}"></i>
+                                                        <i class="fa fa-star{% if rs.avaregereview < 2%}-o empty{% endif%}"></i>
+                                                        <i class="fa fa-star{% if rs.avaregereview < 3%}-o empty{% endif%}"></i>
+                                                        <i class="fa fa-star{% if rs.avaregereview < 4%}-o empty{% endif%}"></i>
+                                                        <i class="fa fa-star{% if rs.avaregereview < 5%}-o empty{% endif%}"></i>
+                                                        {{ rs.avaregereview |stringformat:".2f"}}
+                                                    </div>
                                             </td>
                                             <td class="price text-center">
                                                 <strong>$ {{ rs.price }}</strong><br></td>
-                                            <td class="qty text-center"><input class="input" type="number" value="1" style="width: 75px; margin: auto 20px;">
-                                            </td>
-
-                                            <td class="text-right"  style="width: 150px;"><a style="border-radius: 10px" href="{% url "addtoshopcart" rs.id  %}"
-                                                    class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i>
-                                                    Add to Cart</a></td>
+                                                <td>
+                                                {% if rs.variant == 'None'%}
+                                                <a href="/order/addtoshopcart/{{ rs.id }}" class="primary-btn add-to-cart"><i
+                                                        class="fa fa-shopping-cart"></i> Add to Cart</a>
+                                                {% else %}
+                                                <a href="{% url 'product_detail' rs.id rs.slug %}" class="primary-btn add-to-cart"><i
+                                                        class="fa fa-shopping-cart"></i> Detail</a>
+                                                {% endif %}</td>
+                                        
                                         </tr>
                                         {% endfor %}
 

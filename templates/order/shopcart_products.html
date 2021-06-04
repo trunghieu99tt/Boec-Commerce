@@ -44,7 +44,7 @@
                             <tr>
                                 <td class="thumb">
                                     {% if rs.variant.image_id  > 0 %}
-                                    <img src="{{rs.variant.image.url }}" alt="">
+                                    <img src="{{rs.variant.image}}" alt="">
                                     {% else %}
                                     <img src="{{rs.product.image.url}}" alt="">
                                     {% endif %}
@@ -94,9 +94,11 @@
                             </tr>
                         </tfoot>
                     </table>
+                    {% if total > 0 %}
                     <div class="pull-right">
                         <a href="{% url 'orderproduct' %}" class="primary-btn">Place Order</a>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
