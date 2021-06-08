@@ -269,53 +269,6 @@
             </div>
             <div class="col-md-12">
                 <div class="product-tab">
-                    {% if suggests %}
-                    <ul class="tab-nav">
-                        <h4>Frequently bought together</h4>
-                        <table class="shopping-cart-table table">
-                            <thead>
-                                <tr>
-                                    <th>Product</th>
-                                    <th style="width: 700px;"></th>
-                                    <th class="text-center">Price</th>
-                                    <th class="text-right"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for rs in suggests %}
-                                <tr>
-                                    <td class="thumb"><a href="{% url 'product_detail' rs.id rs.slug %}">
-                                            <img src="{{ rs.image.url }}" alt="" style="height: 100px">
-                                        </a></td>
-                                    <td class="details" style="display: flex;flex-direction: column;"> <a
-                                            href="{% url 'product_detail' rs.id rs.slug %}">{{ rs.title }}</a>
-                                            <div class="product-rating">
-                                                <div class="product-rating-stars">
-                                                    <i class="fa fa-star{% if rs.avaregereview < 1%}-o empty{% endif%}"></i>
-                                                    <i class="fa fa-star{% if rs.avaregereview < 2%}-o empty{% endif%}"></i>
-                                                    <i class="fa fa-star{% if rs.avaregereview < 3%}-o empty{% endif%}"></i>
-                                                    <i class="fa fa-star{% if rs.avaregereview < 4%}-o empty{% endif%}"></i>
-                                                    <i class="fa fa-star{% if rs.avaregereview < 5%}-o empty{% endif%}"></i>
-                                                </div>
-                                                {{ rs.avaregereview |stringformat:".2f"}}
-                                            </div>
-                                    </td>
-                                    <td class="price text-center">
-                                        <strong>$ {{ rs.price }}</strong><br></td>
-                                        <td>
-                                        {% if rs.variant == 'None'%}
-                                        <a href="/order/addtoshopcart/{{ rs.id }}" class="primary-btn add-to-cart"><i
-                                                class="fa fa-shopping-cart"></i> Add to Cart</a>
-                                        {% else %}
-                                        <a href="{% url 'product_detail' rs.id rs.slug %}" class="primary-btn add-to-cart"><i
-                                                class="fa fa-shopping-cart"></i> Detail</a>
-                                        {% endif %}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </ul>
-                    {% endif %}
                     <ul class="tab-nav">
                         <li class="active"><a data-toggle="tab" href="#tab1">Details</a></li>
                         <li><a data-toggle="tab" href="#tab2">Reviews ({{ product.countreview}} )</a></li>

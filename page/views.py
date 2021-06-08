@@ -1,16 +1,13 @@
 import json
-import pandas as pd
-from apyori import apriori
 
 from django.contrib import messages
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.template.loader import render_to_string
 
 from page.forms import ContactForm, SearchForm
 from page.models import ContactMessage
 from product.models import Category, Product, Images, Comment, Variants
-from order.models import OrderProduct, Order
 
 
 def index(request):
@@ -101,11 +98,8 @@ def product_detail(request, id, slug):
 
     images = Images.objects.filter(product_id=id)
     comments = Comment.objects.filter(product_id=id, status='True')
-    suggests = suggest_pro(id)
-    # print(suggests)
     context = {'product': product, 'category': category,
                'images': images, 'comments': comments,
-               'suggests': suggests,
                'categories': category
                }
     if product.variant != "None":  # Product have variants
@@ -148,39 +142,3 @@ def ajaxcolor(request):
             'components/color_list.html', context=context)}
         return JsonResponse(data)
     return JsonResponse(data)
-
-
-def suggest_pro(id):
-    orders = Order.objects.all()
-    list_orders = []
-    for order in orders:
-        orderproducts = OrderProduct.objects.filter(order_id=order.id)
-        if (len(orderproducts) > 1):
-            list_products = []
-            for orderproduct in orderproducts:
-                list_products.append(str(orderproduct.product_id))
-            list_orders.append(list_products)
-    df = pd.DataFrame(list_orders)
-    records = []
-    for i in range(df.shape[0]):
-        records.append([str(df.values[i, j])
-                       for j in range(df.shape[1])])
-
-    association_rules = apriori(
-        records, min_support=0.3, min_confidence=0.5, min_lift=1.2)
-    association_results = list(association_rules)
-    list_results = []
-    for i in range(len(association_results)):
-        for j in range(len(association_results[i][2])):
-            item_base = list(association_results[i][2][j][0])
-            item_add = list(association_results[i][2][j][1])
-            if len(item_base) == 1:
-                if item_base[0] == str(id):
-                    for item in item_add:
-                        if item != 'None':
-                            pro = Product.objects.get(pk=int(item))
-                            if pro.status == "True":
-                                if pro not in list_results:
-                                    list_results.append(pro)
-
-    return list_results
