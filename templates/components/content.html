@@ -28,15 +28,17 @@
                         </div>
                         <h2 class="product-name"><a href="{% url 'product_detail' rs.id rs.slug %}">{{ rs.title }}</a></h2>
                         <div class="product-btns">
-                            <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+                            <a href="/user/addtowishlist/{{ rs.id }}" class="main-btn icon-btn"><i class="fa fa-heart"></i></a>
                             <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
                             {% if rs.variant == 'None'%}
                             <a href="/order/addtoshopcart/{{ rs.id }}" class="primary-btn add-to-cart"><i
                                     class="fa fa-shopping-cart"></i> Add to Cart</a>
                             {% else %}
+                           
                             <a href="{% url 'product_detail' rs.id rs.slug %}" class="primary-btn add-to-cart"><i
                                     class="fa fa-shopping-cart"></i> Detail</a>
                             {% endif %}
+                            
                         </div>
                     </div>
                 </div>
@@ -78,7 +80,7 @@
                         </div>
                         <h2 class="product-name"><a href="{% url 'product_detail' rs.id rs.slug %}">{{ rs.title }}</a></h2>
                         <div class="product-btns">
-                            <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+                            <a href="/user/addtowishlist/{{ rs.id }}" class="main-btn icon-btn"><i class="fa fa-heart"></i></a>
                             <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
                             {% if rs.variant == 'None'%}
                             <a href="{% url 'addtoshopcart' rs.id %}" class="primary-btn add-to-cart"><i

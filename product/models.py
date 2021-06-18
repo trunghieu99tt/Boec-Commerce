@@ -89,6 +89,26 @@ class Product(models.Model):
         return cnt
 
 
+class WishList(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    title = models.CharField(max_length=50)
+    description = models.TextField(max_length=255)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user.first_name
+
+
+class WishlistItem(models.Model):
+    wishlist = models.ForeignKey(WishList, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    create_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.product.title
+
+
 class Images(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     title = models.CharField(max_length=50, blank=True)

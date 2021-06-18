@@ -19,3 +19,22 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Shop(models.Model):
+    name = models.CharField(blank=True, max_length=20)
+    address = models.CharField(blank=True, max_length=50)
+
+    def __str__(self):
+        return self.name
+
+    def save(self):
+        count = Shop.objects.all().count()
+        save_permission = Shop.has_add_permission(self)
+        if count < 1:
+            super(Shop, self).save()
+        elif save_permission:
+            super(Shop, self).save()
+
+    def has_add_permission(self):
+        return Shop.objects.filter(id=self.id).exists()

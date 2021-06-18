@@ -10,7 +10,7 @@ from django.contrib.auth.models import Group, User
 from django.utils import translation
 
 from order.models import Order, OrderProduct
-from product.models import Category, Comment
+from product.models import Category, Comment, WishList, WishlistItem, Product
 from user.forms import SignUpForm, UserUpdateForm, ProfileUpdateForm
 from user.models import UserProfile
 
@@ -272,3 +272,63 @@ def add_product(request):
         return HttpResponseRedirect('/signup')
     if request.methods == "POST":
         pass
+
+
+@login_required(login_url='/login')  # Check login
+def user_wishlist(request):
+    currentUser = request.user
+    if not WishList.objects.filter(user_id=currentUser.id).exists():
+        wishlist = WishList()
+        wishlist.user_id = currentUser.id
+        wishlist.title = "Wishlist"
+        wishlist.description = "Description"
+        wishlist.save()
+    else:
+        wishlist = WishList.objects.filter(user_id=currentUser.id).first()
+    print('wishlist: {}'.format(wishlist.id))
+    wishlistItems = WishlistItem.objects.filter(wishlist_id=wishlist.id)
+    products = []
+    for rs in wishlistItems:
+        product = Product.objects.get(pk=rs.product_id)
+        products.append(product)
+    context = {
+        'products': products
+    }
+    return render(request, 'user/wishlist.html', context)
+
+
+@login_required(login_url='/login')  # Check login
+def addToWishlist(request, id):
+    url = request.META.get('HTTP_REFERER')  # get last url
+    currentUser = request.user
+    if not WishList.objects.filter(user_id=currentUser.id).exists():
+        wishlist = WishList()
+        wishlist.user_id = currentUser.id
+        wishlist.title = "Wishlist"
+        wishlist.description = "Description"
+        wishlist.save()
+    else:
+        wishlist = WishList.objects.filter(user_id=currentUser.id).first()
+    if not WishlistItem.objects.filter(wishlist_id=wishlist.id):
+        newWishlistItem = WishlistItem()
+        newWishlistItem.wishlist_id = wishlist.id
+        newWishlistItem.product_id = id
+        newWishlistItem.save()
+        messages.success(request, "Product added to wishlist ")
+    else:
+        messages.success(request, "Product already in wishlist ")
+    return HttpResponseRedirect(url)
+
+
+@login_required(login_url='/login')  # Check login
+def removeFromWishlist(request, id):
+    url = request.META.get('HTTP_REFERER')  # get last url
+    currentUser = request.user
+    wishlist = WishList.objects.filter(user_id=currentUser.id).first()
+    if not WishlistItem.objects.filter(wishlist_id=wishlist.id):
+        messages.error(request, "Product is not in wishlist")
+    else:
+        WishlistItem.objects.filter(
+            wishlist_id=wishlist.id, product_id=id).delete()
+        messages.success(request, "Delete product succesfully!")
+    return HttpResponseRedirect(url)

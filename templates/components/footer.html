@@ -10,13 +10,14 @@
                 <div class="footer">
                     <!-- footer logo -->
                     <div class="footer-logo">
-                        <a class="logo" href="#">
+                        <a class="logo" href="/">
                             <img src="{% static 'img/logo.png'%}" alt="">
                         </a>
                     </div>
                     <!-- /footer logo -->
 
-                    <p>Book, Electronic and Clothes</p>
+                    <p>{{siteInfo.name}}</p>
+                    <p>Address: {{siteInfo.address}}</p>
 
                     <!-- footer social -->
                     <ul class="footer-social" >

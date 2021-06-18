@@ -1,0 +1,100 @@
+{% extends 'base/homebase.html' %}
+{% block title %}{{ catdata.title }} Products{% endblock %}
+
+{% block sidebar %} {% include 'components/sidebar.html' %} {% endblock %}
+
+{% block body %}
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li class="active">Wishlist</li>
+        </ul>
+    </div>
+</div>
+<!-- /BREADCRUMB -->
+<!-- section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- MAIN -->
+            <div id="main">
+                <!-- STORE -->
+                <div id="store">
+                    <!-- row -->
+                    <div class="row d-flex">
+
+                        <div class="col-md-12">
+                            <div class="order-summary clearfix">
+                                <div class="section-title">
+                                    <h3 class="title">User wishlist</h3>
+                                </div>
+                                <!-- row -->
+                                <div class="row">
+
+                                    <!-- section title -->
+                                    {% for rs in products %}
+                                    <!-- Product Single -->
+                                    <div class="col-md-4 col-sm-6 col-xs-6">
+                                        <div class="product product-single">
+                                            <div class="product-thumb" style="width: 100%;">
+                                                <img src="{{ rs.image.url }}" alt=""
+                                                    style="width: 100%; object-fit: contain;">
+                                            </div>
+                                            <div class="product-body">
+                                                <h3 class="product-price">${{ rs.price }}</h3>
+                                                <div class="product-rating">
+                                                    <i
+                                                        class="fa fa-star{% if rs.avaregereview < 1%}-o empty{% endif%}"></i>
+                                                    <i
+                                                        class="fa fa-star{% if rs.avaregereview < 2%}-o empty{% endif%}"></i>
+                                                    <i
+                                                        class="fa fa-star{% if rs.avaregereview < 3%}-o empty{% endif%}"></i>
+                                                    <i
+                                                        class="fa fa-star{% if rs.avaregereview < 4%}-o empty{% endif%}"></i>
+                                                    <i
+                                                        class="fa fa-star{% if rs.avaregereview < 5%}-o empty{% endif%}"></i>
+                                                    {{ rs.avaregereview}}/{{ rs.countreview}}
+
+                                                </div>
+                                                <h2 class="product-name"><a
+                                                        href="{% url 'product_detail' rs.id rs.slug %}">{{ rs.title }}</a></h2>
+                                                <div class="product-btns">
+                                                    <button class="main-btn icon-btn"><i
+                                                            class="fa fa-exchange"></i></button>
+                                                    {% if rs.variant == 'None'%}
+                                                    <a href="/order/addtoshopcart/{{ rs.id }}"
+                                                        class="primary-btn add-to-cart"><i
+                                                            class="fa fa-shopping-cart"></i> Add to Cart</a>
+                                                    {% else %}
+                                                    <a href="{% url 'product_detail' rs.id rs.slug %}"
+                                                        class="primary-btn add-to-cart"><i
+                                                            class="fa fa-shopping-cart"></i> Detail</a>
+                                                    {% endif %}
+                                                    <a href="/user/removefromwishlist/{{ rs.id }}" style="display: inline-block;padding: 10px;border: 1px solid;">Remove</a>
+                                                </div>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                    <!-- /Product Single -->
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->
+
+
+{% endblock %}

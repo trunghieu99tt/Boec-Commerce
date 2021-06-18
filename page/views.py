@@ -8,8 +8,8 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 
 from page.forms import ContactForm, SearchForm
-from page.models import ContactMessage
-from product.models import Category, Product, Images, Comment, Variants
+from page.models import ContactMessage, Shop
+from product.models import Category, Product, Images, Comment, Variants, WishList
 from order.models import OrderProduct, Order
 
 
@@ -26,12 +26,19 @@ def index(request):
 
     # page = "home"
     categories = Category.objects.all()
+
+    # Get site info
+    siteInfo = Shop.objects.all().first()
+
+    print(siteInfo)
+
     context = {
         # 'page': page,
         'products_slider': products_slider,
         'products_latest': products_latest,
         'products_picked': products_picked,
-        'categories': categories
+        'categories': categories,
+        'siteInfo': siteInfo
     }
     return render(request, 'pages/index.html', context)
 
@@ -69,13 +76,39 @@ def contactus(request):
 
 
 def category_products(request, id):
+
+    # Lấy ra min Price, maxPrice
+    if request.GET.get('minPrice'):
+        minPrice = request.GET.get('minPrice')
+    else:
+        minPrice = 0
+    if request.GET.get('maxPrice'):
+        maxPrice = request.GET.get('maxPrice')
+    else:
+        maxPrice = 999
+    if request.GET.get('sortBy'):
+        sortBy = request.GET.get('sortBy')
+    else:
+        sortBy = 'price'
     categories = Category.objects.all()
     catdata = Category.objects.get(pk=id)
-    products = Product.objects.filter(category_id=id)  # default language
+
+    # Lọc theo khoảng giá
+    products = Product.objects.filter(
+        category_id=id, price__range=(minPrice, maxPrice)).order_by(sortBy)
+
+    # Get site info
+    siteInfo = Shop.objects.all().first()
+
+    print(siteInfo)
 
     context = {'products': products,
                'categories': categories,
-               'catdata': catdata}
+               'catdata': catdata,
+               'minPrice': minPrice,
+               'maxPrice': maxPrice,
+               'siteInfo': siteInfo
+               }
     return render(request, 'pages/category_products.html', context)
 
 
@@ -87,8 +120,12 @@ def search(request):
             products = Product.objects.filter(title__icontains=query)
 
             category = Category.objects.all()
+            # Get site info
+            siteInfo = Shop.objects.all().first()
             context = {'products': products, 'query': query,
-                       'categories': category}
+                       'categories': category,
+                       'siteInfo': siteInfo
+                       }
             return render(request, 'pages/search_products.html', context)
 
     return HttpResponseRedirect('/')
@@ -102,11 +139,15 @@ def product_detail(request, id, slug):
     images = Images.objects.filter(product_id=id)
     comments = Comment.objects.filter(product_id=id, status='True')
     suggests = suggest_pro(id)
+
+    # Get site info
+    siteInfo = Shop.objects.all().first()
     # print(suggests)
     context = {'product': product, 'category': category,
                'images': images, 'comments': comments,
                'suggests': suggests,
-               'categories': category
+               'categories': category,
+               'siteInfo': siteInfo
                }
     if product.variant != "None":  # Product have variants
         if request.method == 'POST':  # if we select color
